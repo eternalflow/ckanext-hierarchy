@@ -88,11 +88,16 @@ def _group_tree_branch(root_group, highlight_group_name=None, type='group'):
     :param highlight_group_name: group name that is to be flagged 'highlighted'
     :returns: the top GroupTreeNode of the tree
     '''
+    def is_group_central(group):
+        orgtype = group.extras.get('orgtype')
+        return orgtype == 'central'
+
     nodes = {}  # group_id: GroupTreeNode()
     root_node = nodes[root_group.id] = GroupTreeNode(
         {'id': root_group.id,
          'name': root_group.name,
-         'title': root_group.title})
+         'title': root_group.title,
+         'central': is_group_central(root_group)})
     if root_group.name == highlight_group_name:
         nodes[root_group.id].highlight()
         highlight_group_name = None
